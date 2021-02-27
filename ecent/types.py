@@ -26,7 +26,7 @@ class Assignment(BaseModel):
     title: str
     status: str
     deadline: str
-    remaining_time :str
+    remaining_time :Optional[str]
     last_change: Optional[str]
 
 class ShortAssignment(BaseModel):

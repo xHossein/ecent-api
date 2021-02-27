@@ -3,7 +3,7 @@ from ecent.types import Assignment, Course, ShortAssignment, ShortCourse,Resourc
 import html
 import re
 from bs4 import BeautifulSoup as bs
-
+from ecent.utils import Parser
 
 def extract_short_course(text) -> List[ShortCourse]:
     courses_box = html.unescape(re.findall(r'class="courses frontpage-course-list-enrolled"(.*)id="skipmycourses"',text)[0])
@@ -98,7 +98,7 @@ def extract_assignment(text) -> Assignment:
                     'id':id,
                     'title': title,
                     'status': details[0],
-                    'deadline': details[2],
-                    'remaining_time': details[3],
-                    'last_change': None if details[4]=='-' else details[4],
+                    'deadline': Parser.date(details[2]),
+                    'remaining_time': None if details[0] == 'برای تصحیح تحویل داده شده است' else Parser.remaining(details[3]),
+                    'last_change': None if details[4]=='-' else Parser.date(details[4]),
                 })
