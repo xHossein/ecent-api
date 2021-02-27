@@ -3,7 +3,7 @@ import requests
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 from ecent.constants import BASE_URL, BASE_HEADERS
 from ecent.exceptions import (ClientLoginRequired,UnknownError,
-                        ClientLoginRequired,BadCredentials,)
+                        ClientLoginRequired,WrongPassword,)
 
 class PrivateRequest():
     def __init__(self) -> None:
@@ -46,7 +46,7 @@ class PrivateRequest():
             self.private.headers = BASE_HEADERS
             isCorrenctCredentials = self._auth.login(self.username,self.password)
             if not isCorrenctCredentials:
-                raise BadCredentials("it seems you changed your password.")
+                raise WrongPassword("it seems you changed your password.")
             self.private_request(endpoint,data,json,fields,
                                 params,headers,need_login)
 

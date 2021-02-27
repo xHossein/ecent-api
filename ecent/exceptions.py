@@ -8,7 +8,7 @@ class ClientLoginRequired(ClientError):
 class PrivateError(ClientError):
     """For Private API"""
     
-class BadCredentials(PrivateError):
+class WrongPassword(PrivateError):
     pass
 
 class UnknownError(PrivateError):
