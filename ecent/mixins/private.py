@@ -42,12 +42,10 @@ class PrivateRequest():
             raise UnknownError(e)
 
         if 'forgot_password.php' in response.text and need_login:
-            self.authorized = False
-            self.private.headers = BASE_HEADERS
-            isCorrenctCredentials = self._auth.login(self.username,self.password)
-            if not isCorrenctCredentials:
+            isCorrenctPassword = self._auth.login(self.username,self.password)
+            if not isCorrenctPassword:
                 raise WrongPassword("it seems you changed your password.")
-            self.private_request(endpoint,data,json,fields,
+            return self.private_request(endpoint,data,json,fields,
                                 params,headers,need_login)
 
         else:

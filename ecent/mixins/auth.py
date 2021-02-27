@@ -21,11 +21,9 @@ class Auth(PrivateRequest):
         self.password = password
 
         login_response = self.private_request('login/index.php', need_login=False)
-        token_group = re.findall(r'name="logintoken" value="(.*?)"', login_response.text)
-
-        if len(token_group) == 0:
+        login_token = (re.findall(r'name="logintoken" value="(.*?)"', login_response.text) or [None])[0]
+        if not login_token:
             return False
-        login_token = token_group[0]
 
         data = f'anchor=&logintoken={login_token}&username={username}&password={password}'
         response = self.private_request('login/index.php',
@@ -35,14 +33,13 @@ class Auth(PrivateRequest):
         self.cookie = {
             'Cookie': 'MoodleSession={};'.format(
                 response.history[0].cookies.get('MoodleSession')
-            )
-        }
+                )
+            }
 
         self.private.headers.update(self.cookie)
         if 'actionmenuaction' in response.text:
-            ses_key = re.findall(r'logout.php\?sesskey=(.*?)"', response.text)
-            self.session_key = ses_key[0] if len(ses_key) > 0 else None
             self.authorized = True
+            self.session_key = (re.findall(r'logout.php\?sesskey=(.*?)"', response.text) or [None])[0]
         else:
             self.login(username, password, retries + 1)
 
