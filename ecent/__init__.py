@@ -8,7 +8,7 @@ class Client(Auth,
             AssignmentMixin,
             CourseMixin,
             ):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self,relogin:bool=False) -> None:
+        super().__init__(relogin)
 
     

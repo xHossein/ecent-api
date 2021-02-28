@@ -4,8 +4,8 @@ from ecent.mixins.private import PrivateRequest
 
 
 class Auth(PrivateRequest):
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self,relogin:bool) -> None:
+        super().__init__(relogin)
         self.cookie = None
         self._auth = self
 
@@ -14,7 +14,7 @@ class Auth(PrivateRequest):
         if retries > 3:
             return False
 
-        if self.authorized:
+        if self.is_authorized:
             self.logout()
 
         self.username = username
@@ -38,16 +38,16 @@ class Auth(PrivateRequest):
 
         self.private.headers.update(self.cookie)
         if 'actionmenuaction' in response.text:
-            self.authorized = True
+            self.is_authorized = True
             self.session_key = (re.findall(r'logout.php\?sesskey=(.*?)"', response.text) or [None])[0]
         else:
             self.login(username, password, retries + 1)
 
-        return self.authorized
+        return self.is_authorized
 
     def logout(self) -> None:
-        if self.authorized:
-            self.authorized = False
+        if self.is_authorized:
+            self.is_authorized = False
             response = self.private_request('login/logout.php', params=f'sesskey={self.session_key}', need_login=False)
             self.cookie = {
                 'Cookie': 'MoodleSession={};'.format(

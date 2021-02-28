@@ -5,6 +5,9 @@ class ClientError(Exception):
 class ClientLoginRequired(ClientError):
     pass
 
+class ClientSessionExpired(ClientError):
+    pass
+
 class PrivateError(ClientError):
     """For Private API"""
     

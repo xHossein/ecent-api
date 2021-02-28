@@ -7,7 +7,7 @@ from ecent.types import ShortCourse
 
 class AccountMixin(PrivateRequest):
 
-    def my_courses(self) -> List[ShortCourse]:
+    def courses(self) -> List[ShortCourse]:
         # TODO: handle access denied response
         home = self.private_request("").text
         return extract_short_course(home)

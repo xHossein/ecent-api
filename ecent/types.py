@@ -23,8 +23,9 @@ class Url(BaseModel):
 
 class Assignment(BaseModel):
     id: str
+    link: HttpUrl
     title: str
-    status: str
+    is_submitted: bool
     deadline: str
     remaining_time :Optional[str]
     last_change: Optional[str]
@@ -41,4 +42,4 @@ class Course(BaseModel):
     adobe_connect: Optional[HttpUrl]
     urls: List[Url]
     resources: List[Resource]
-    assignments: List[ShortAssignment]
+    short_assignments: List[ShortAssignment]

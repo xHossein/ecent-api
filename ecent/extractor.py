@@ -30,7 +30,7 @@ def extract_course(text) -> Course:
                 'adobe_connect': adobe_connect,
                 'urls': extract_urls(text),
                 'resources': extract_resources(text),
-                'assignments': extract_short_assignments(text),
+                'short_assignments': extract_short_assignments(text),
                 })
 
 def extract_resources(text) -> List[Resource]:
@@ -46,7 +46,7 @@ def extract_resources(text) -> List[Resource]:
         details = div.find(class_='resourcelinkdetails').text
         unit = 'MB' if 'مگابایت' in details else 'KB'
         size = re.findall(r'[+-]?(\d+([.]\d*)?(e[+-]?\d+)?|[.]\d+(e[+-]?\d+)?)',details)[0][0] + " " + unit
-        type = (re.findall(r'\((.*)\)',details) or ['UNKNOWN'])[0]
+        type = (re.findall(r' (.{3,6})$',details) or ['UNKNOWN'])[0].replace('(','').replace(')','')
         resources.append(Resource(**{
                         'id': id,
                         'link': link,
@@ -96,8 +96,9 @@ def extract_assignment(text) -> Assignment:
     details  = re.findall(r'cell c1 lastcol" style="">(.*?)<',text)
     return Assignment(**{
                     'id':id,
+                    'link': f'https://ecent2.guilan.ac.ir/mod/assign/view.php?id={id}',
                     'title': title,
-                    'status': details[0],
+                    'is_submitted': True if details[0] == 'برای تصحیح تحویل داده شده است' else False,
                     'deadline': Parser.date(details[2]),
                     'remaining_time': None if details[0] == 'برای تصحیح تحویل داده شده است' else Parser.remaining(details[3]),
                     'last_change': None if details[4]=='-' else Parser.date(details[4]),
