@@ -46,7 +46,7 @@ class PrivateRequest():
             raise UnknownError(e)
 
         for history in response.history:
-            if history.status_code == 303 and login_required:
+            if history.status_code == 303 and '/login/' in history.url and login_required:
                 if self.relogin:
                     logged = self._auth.login(self.username,self.password)
                     if not logged:

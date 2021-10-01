@@ -38,7 +38,7 @@ class Course(BaseModel):
     id: str
     link: str
     title: str
-    adobe_connect: Optional[str]
+    adobe_connect_link: Optional[str]
     urls: List[Url]
     resources: List[Resource]
     short_assignments: List[ShortAssignment]
