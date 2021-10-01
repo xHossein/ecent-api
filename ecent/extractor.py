@@ -34,7 +34,7 @@ def extract_course(text) -> Course:
                 })
 
 def extract_resources(text) -> List[Resource]:
-    soup = bs(text,'lxml')
+    soup = bs(text, 'html.parser')
     resource_class = soup.find_all(name='li', class_='activity resource modtype_resource')
     resources = []
     for item in resource_class:
@@ -57,7 +57,7 @@ def extract_resources(text) -> List[Resource]:
     return resources
 
 def extract_short_assignments(text) -> List[ShortAssignment]:
-    soup = bs(text,'lxml')
+    soup = bs(text, 'html.parser')
     assign_class = soup.find_all(name='li', class_='activity assign modtype_assign')
     assignments = []
     for item in assign_class:
@@ -74,7 +74,7 @@ def extract_short_assignments(text) -> List[ShortAssignment]:
     return assignments
 
 def extract_urls(text) -> List[Url]:
-    soup = bs(text,'lxml')
+    soup = bs(text, 'html.parser')
     url_class = soup.find_all(name='li', class_='activity url modtype_url')
     urls = []
     for item in url_class:

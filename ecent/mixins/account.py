@@ -1,7 +1,7 @@
 from typing import List
 
 from ecent.extractor import extract_short_course
-from ecent.mixins.private import PrivateRequest
+from ecent.mixins.request import PrivateRequest
 from ecent.types import ShortCourse
 
 
