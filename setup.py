@@ -10,7 +10,7 @@ requirements = [
 
 setup(
     name='ecent-api',
-    version='0.1.0',
+    version='0.1.1',
     author='xHossein',
     license='MIT',
     url='https://github.com/xHossein/ecent-api',
