@@ -4,7 +4,7 @@ requirements = [
     'requests==2.25.1',
     'requests-toolbelt==0.9.1',
     'PySocks==1.7.1',
-    'pydantic==1.7.3',
+    'pydantic==1.7.4',
     'beautifulsoup4==4.9.3'
 ]
 
