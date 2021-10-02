@@ -13,6 +13,6 @@ class CourseMixin(PrivateRequest):
         response = self.private_request(adobe_connect_link.split('guilan.ac.ir/')[1])
         join_link = extract_join_link(response.text)
         response = self.private_request(join_link.split('guilan.ac.ir/')[1])
-        return response.history[0].get('Location')
+        return response.history[0].headers.get('Location')
   
 

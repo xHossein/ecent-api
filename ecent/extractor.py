@@ -1,5 +1,5 @@
 from typing import List
-from ecent.types import Assignment, Course, ShortAssignment, ShortCourse,Resource, Url
+from ecent.types import Assignment, Course, Grade, ShortAssignment, ShortCourse,Resource, Url
 import html
 import re
 from bs4 import BeautifulSoup as bs
@@ -108,3 +108,23 @@ def extract_join_link(data: str):
     soup = bs(data, 'html.parser')
     input_element = soup.find('input', {'value': 'پيوستن به كلاس'})
     return re.findall(r"window.open\('(.*?)'", input_element.get('onclick'))[0]
+
+def extract_grades(data: str):
+    soup = bs(data, 'html.parser')
+    elements = soup.find_all('tr', class_='', id=re.compile('^grade-report-overview'))
+    grades = []
+    for element in elements:
+        a = element.find('a')
+        link = a['href']
+        title = a.contents[0]
+        if 'ارتباط با کارشناسان گروه' in title:
+            continue
+        grade = element.find(class_='cell c1').contents[0]
+        grades.append(
+            Grade(**{
+                'link': link,
+                'title': title,
+                'grade': grade
+            })
+        )
+    return grades

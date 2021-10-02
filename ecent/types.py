@@ -42,3 +42,8 @@ class Course(BaseModel):
     urls: List[Url]
     resources: List[Resource]
     short_assignments: List[ShortAssignment]
+    
+class Grade(BaseModel):
+    title: str
+    grade: str
+    link: str
